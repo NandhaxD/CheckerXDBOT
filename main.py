@@ -114,12 +114,12 @@ async def generator(app, message):
         if len(m.text.split()) < 2:
              return await m.reply_text(text=usage)
         try:
-          bin_code = int(m.text.split()[1])
+          bin_code = int(m.text.split()[1][:6])
           limit = int(m.text.split()[2]) if len(m.text.split()) > 2 else 10
         except (ValueError, IndexError):
            return await m.reply_text(text=usage)
 
-        msg = await m.reply_text("Generating....")
+        msg = await m.reply_text("**Generating....**")
         data = Checker.generator(bin_code, limit)
         if not data:
            return await msg.edit_text(
@@ -128,8 +128,8 @@ async def generator(app, message):
         text = "**✨ Generated**:\n"
         for i, cc in enumerate(data):
             date, year = cc['expiration_date'].split('/')              
-            text += f"**{i+1}**, `{cc['card_number']}|{date}|{year}|{cc['ccv']}`"
-  
+            text += f"**{i+1}**, `{cc['card_number']}|{date}|{year}|{cc['cvv']}`"
+          
         return await msg.edit_text(text)
             
             
