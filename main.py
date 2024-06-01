@@ -76,7 +76,8 @@ async def callback_data(app, query):
                "Don't stalk others requests. 💀"
            )
           
-  
+
+    button =types.InlineKeyboardMarkup([[types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")]])
     if data == "help":
         await query.message.edit_text(
           text=f"""
@@ -88,10 +89,10 @@ async def callback_data(app, query):
 ✪ **Example**: `/fake us`
 
 ➥ /bin <bin code>: for information about the bin codes.
-✪ **Example**: `/bin 464988
+✪ **Example**: `/bin 464988`
 
 🔜 **More commands will coming soon **📢.          
-          """, parse_mode=enums.ParseMode.MARKDOWN)
+          """, reply_markup=button, parse_mode=enums.ParseMode.MARKDOWN)
     elif data == "close":
         await query.message.delete()
         await query.answer('⛔ Deleted!')
