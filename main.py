@@ -80,16 +80,17 @@ async def callback_data(app, query):
     if data == "help":
         await query.message.edit_text(
           text=f"""
-➥ /gen <query>: for generate credit cards.
-**Example**: `/gen 342663651415103`
+**✨ Commands**:
+➥ /gen <credit card>: for generate credit cards.
+✪ **Example**: `/gen 342663651415103`
 
 ➥ /fake <country code>: for generate random fake address.
-**Example**: `/fake us`
+✪ **Example**: `/fake us`
 
 ➥ /bin <bin code>: for information about the bin codes.
-**Example**: `/bin 464988
+✪ **Example**: `/bin 464988
 
-**More commands will coming soon 📢.          
+🔜 **More commands will coming soon **📢.          
           """, parse_mode=enums.ParseMode.MARKDOWN)
     elif data == "close":
         await query.message.delete()
