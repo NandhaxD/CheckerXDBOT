@@ -3,6 +3,9 @@
 from pyrogram import Client, filters, types, enums, errors
 
 
+import os
+import asyncio
+
 app = Client(
      api_id=os.getenv('api_id'),
      api_hash=os.getenv('api_hash'),
@@ -68,4 +71,5 @@ async def callback_data(app, query):
 
 
 
+app.run()
   
