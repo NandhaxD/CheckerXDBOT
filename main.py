@@ -122,8 +122,10 @@ async def generator(app, message):
            return await m.reply_text(text=usage)
 
         uid = m.from_user.id
-        msg = await m.reply_text("**Generating....**")
+       
+        msg = await m.reply_text(text="**Generating....**", quote=True)
         data = Checker.generator(bin_code, limit)
+       
         if not data:
            return await msg.edit_text(
              "Uff Something went wrong 🥺"
@@ -142,7 +144,7 @@ async def generator(app, message):
         return await msg.edit_text(
           text=text, 
           parse_mode=enums.ParseMode.HTML,
-          quote=True
+          reply_markup=button
         )
             
             
