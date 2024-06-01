@@ -101,7 +101,7 @@ async def callback_data(app, query):
 ######################################################################################################################################################
 
 
-@bot.on_message(filters.command('gen', prefixes=PREFIX))
+@app.on_message(filters.command('gen', prefixes=PREFIX))
 async def generator(app, message):
 
      usage = (
