@@ -13,10 +13,7 @@ app = Client(
 
 PREFIX = ['.', '!', '/']
 
-
-
-
-@app.on_message(filters.command(['start', 'help']))
+@app.on_message(filters.command(['start', 'help'], prefixes=PREFIX))
 async def start(app, message):
      m = message
      if not m.from_user:
@@ -27,7 +24,8 @@ async def start(app, message):
      **Hello user!, {mention} to know my command hit the help button.**
      """
      button = types.InlineKeyboardMarkup([[
-          types.InlineKeyboardButton(text='𝗛𝗘𝗟𝗣 𝗖𝗢𝗠𝗠𝗔𝗡𝗗𝗦', callback_data=f"help:{uid}")
+          types.InlineKeyboardButton(text='𝗛𝗘𝗟𝗣 𝗖𝗢𝗠𝗠𝗔𝗡𝗗𝗦', callback_data=f"help:{uid}"),
+          types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")
          ]])
      return await bot.send_message(
          chat_id=m.chat.id,
@@ -38,14 +36,19 @@ async def start(app, message):
 
 
 
-@app.on_callback_query():
-async def cb(app, query):
-    data = query.data.split()[0]
-    user_id = int(query.data.split()[1])
+@app.on_callback_query()
+async def callback_data(app, query):
+    data = query.data.split(':')[0]
+    uid = int(query.data.split(':')[1])
+
+    if query.from_user.id != uid:
+           return await query.answer(
+               "Don't stalk others requests. 💀"
+           )
+          
   
-    if data == 'help':
-        
-        return await query.message.edit_text(
+    if data == "help":
+        await query.message.edit_text(
           text=f"""
 ➥ /gen <query>: for generate credit cards.
 **Example**: `/gen 342663651415103`
@@ -57,8 +60,11 @@ async def cb(app, query):
 **Example**: `/bin 464988
 
 **More commands will coming soon 📢.          
-          """
-
+          """, parse_mode=enums.ParseMode.MARKDOWN)
+    elif data == "close":
+        await query.message.delete()
+        await query.answer('⛔ Deleted!')
+        
 
 
 
