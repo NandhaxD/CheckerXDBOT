@@ -77,7 +77,7 @@ async def callback_data(app, query):
            )
           
 
-    button =types.InlineKeyboardMarkup([[types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")]])
+    button = types.InlineKeyboardMarkup([[types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")]])
     if data == "help":
         await query.message.edit_text(
           text=f"""
@@ -104,10 +104,12 @@ async def callback_data(app, query):
 @app.on_message(filters.command('gen', prefixes=PREFIX))
 async def generator(app, message):
 
+     m = message
+     
      usage = (
        "**❌ wrong formatting, use /gen bin_code**"
      )
-     m = message
+          
      if not message.from_user:
          return
      else:
@@ -119,6 +121,7 @@ async def generator(app, message):
         except (ValueError, IndexError):
            return await m.reply_text(text=usage)
 
+        uid = m.from_user.id
         msg = await m.reply_text("**Generating....**")
         data = Checker.generator(bin_code, limit)
         if not data:
@@ -132,8 +135,15 @@ async def generator(app, message):
         for i, cc in enumerate(data):
             date, year = cc['expiration_date'].split('/')              
             text += f"<b>{i+1}</b>, <code>{cc['card_number']}|{date}|{year[2:]}|{cc['cvv']}</code>\n"
+          
         text += f"\n<b>✨ Made by @{BOT_USERNAME.capitalize()}</b>"
-        return await msg.edit_text(text, parse_mode=enums.ParseMode.HTML)
+        button = types.InlineKeyboardMarkup([[types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")]])
+       
+        return await msg.edit_text(
+          text=text, 
+          parse_mode=enums.ParseMode.HTML,
+          quote=True
+        )
             
             
            
