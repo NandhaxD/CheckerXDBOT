@@ -125,12 +125,15 @@ async def generator(app, message):
            return await msg.edit_text(
              "Uff Something went wrong 🥺"
            )
-        text = "**✨ Generated**:\n"
+        text = (
+           f"𝗕𝗜𝗡 ➞  <code>{bin_code}</code>\n"
+           f"𝗔𝗺𝗼𝘂𝗻𝘁 ➞ `<code>{limit}</code>\n\n"
+        )
         for i, cc in enumerate(data):
             date, year = cc['expiration_date'].split('/')              
-            text += f"**{i+1}**, `{cc['card_number']}|{date}|{year}|{cc['cvv']}`"
+            text += f"<b>{i+1}</b>, <code>{cc['card_number']}|{date}|{year[2:]}|{cc['cvv']}</code>\n"
           
-        return await msg.edit_text(text)
+        return await msg.edit_text(text, parse_mode=enums.ParseMode.HTML)
             
             
            
