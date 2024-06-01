@@ -1,10 +1,8 @@
 
 
 
-from datetime import datetime
 
 import requests
-import random
 import re
 import json
 
@@ -13,12 +11,12 @@ import json
 class Checker:
   
     @staticmethod
-    def generator(bin: int, limit : int = 1):
+    def generator(bin_code: int, limit : int = 5):
        base_url = "https://namsogen.org/ajax.php"
               
        form_data = {
           "type": "3",
-          "bin": bin,
+          "bin": bin_code,
           "date": "on",
           "csv": "on",
           "number": limit,
