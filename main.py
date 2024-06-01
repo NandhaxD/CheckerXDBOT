@@ -55,7 +55,7 @@ async def start(app, message):
           types.InlineKeyboardButton(text='𝗛𝗘𝗟𝗣 𝗖𝗢𝗠𝗠𝗔𝗡𝗗𝗦', callback_data=f"help:{uid}"),
           types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")
          ]])
-     return await bot.send_message(
+     return await app.send_message(
          chat_id=m.chat.id,
          text=text,
          reply_to_message_id=m.id,
