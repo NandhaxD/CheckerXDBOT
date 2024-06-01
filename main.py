@@ -52,7 +52,7 @@ async def start(app, message):
      **Hello user!, {mention} to know my command hit the help button.**
      """
      button = types.InlineKeyboardMarkup([[
-          types.InlineKeyboardButton(text='𝗛𝗘𝗟𝗣 𝗖𝗢𝗠𝗠𝗔𝗡𝗗𝗦', callback_data=f"help:{uid}"),
+          types.InlineKeyboardButton(text='Commands', callback_data=f"help:{uid}"),
           types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")
          ]])
      return await app.send_message(
@@ -82,6 +82,7 @@ async def callback_data(app, query):
         await query.message.edit_text(
           text=f"""
 **✨ Commands**:
+
 ➥ /gen <credit card>: for generate credit cards.
 ✪ **Example**: `/gen 342663651415103`
 
