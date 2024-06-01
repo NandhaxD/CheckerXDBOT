@@ -4,17 +4,42 @@ from pyrogram import Client, filters, types, enums, errors
 
 
 import os
+import logging
 import asyncio
+import requests
+
+
+######################################################################################################################################################
+
+
+BOT_INFO = requests.get(f'https://api.telegram.org/bot{os.getenv('token')}/getme').json()['result']
+BOT_ID = BOT_INFO['id']
+BOT_USERNAME = BOT_INFO['username']
+BOT_NAME = BOT_INFO['first_name']
+
+PREFIX = ['.', '!', '/']
+
+######################################################################################################################################################
+
+FORMAT = f"[{BOT_NAME}] %(message)s"
+logging.basicConfig(level=logging.INFO, handlers=[logging.FileHandler('logs.txt'),
+              logging.StreamHandler()], format=FORMAT)
+
+
+######################################################################################################################################################
+
 
 app = Client(
+     name=BOT_NAME,
      api_id=os.getenv('api_id'),
      api_hash=os.getenv('api_hash'),
      bot_token=os.getenv('token')
 )
 
+######################################################################################################################################################
 
 
-PREFIX = ['.', '!', '/']
+
 
 @app.on_message(filters.command(['start', 'help'], prefixes=PREFIX))
 async def start(app, message):
@@ -37,6 +62,8 @@ async def start(app, message):
          reply_markup=button
      )
 
+
+######################################################################################################################################################
 
 
 @app.on_callback_query()
