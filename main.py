@@ -1,7 +1,7 @@
 
 
 from pyrogram import Client, filters, types, enums, errors
-
+from utils import *
 
 import os
 import logging
@@ -98,6 +98,46 @@ async def callback_data(app, query):
         await query.message.delete()
         await query.answer('⛔ Deleted!')
         
+######################################################################################################################################################
+
+
+@bot.on_message(filters.command('gen', prefixes=PREFIX))
+async def generator(app, message):
+
+     usage = (
+       "**❌ wrong formatting, use /gen bin_code**"
+     )
+     m = message
+     if not message.from_user:
+         return
+     else:
+        if len(m.text.split()) < 2:
+             return await m.reply_text(text=usage)
+        try:
+          bin_code = int(m.text.split()[1])
+          limit = int(m.text.split()[2]) if len(m.text.split()) > 2 else 10
+        except (ValueError, IndexError):
+           return await m.reply_text(text=usage)
+
+        msg = await m.reply_text("Generating....")
+        data = Checker.generator(bin_code, limit)
+        if not data:
+           return await msg.edit_text(
+             "Uff Something went wrong 🥺"
+           )
+        text = "**✨ Generated**:\n"
+        for i, cc in enumerate(data):
+            date, year = cc['expiration_date'].split('/')              
+            text += f"**{i+1}**, `{cc['card_number']}|{date}|{year}|{cc['ccv']}`"
+  
+        return await msg.edit_text(text)
+            
+            
+           
+
+
+
+
 
 
 
