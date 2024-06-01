@@ -1,0 +1,5 @@
+git+https://github.com/KurimuzonAkuma/pyrogram.git@v2.1.1
+tgcrypto==1.2.5
+asyncio==3.4.3
+requests==2.31.0
+bs4==0.0.2
