@@ -18,6 +18,7 @@ BOT_USERNAME = BOT_INFO['username']
 BOT_NAME = BOT_INFO['first_name']
 
 PREFIX = ['.', '!', '/']
+CHANNEL = "NandhaBots"
 
 ######################################################################################################################################################
 
@@ -52,8 +53,9 @@ async def start(app, message):
      **Hello user!, {mention} to know my command hit the help button.**
      """
      button = types.InlineKeyboardMarkup([[
-          types.InlineKeyboardButton(text='Commands', callback_data=f"help:{uid}"),
-          types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")
+          types.InlineKeyboardButton(text='Commands 🔐', callback_data=f"help:{uid}"),
+          types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}"),],[
+          types.InlineKeyboardButton(text='Channel 📢', url=f"{channel}.t.me")
          ]])
      return await app.send_message(
          chat_id=m.chat.id,
