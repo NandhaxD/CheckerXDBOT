@@ -183,11 +183,16 @@ async def fake_adress(app, message):
              "Uff Something went wrong 🥺"
            )
 
-     text = ''
+     text = '𝗙𝗮𝗸𝗲 𝗔𝗱𝗱𝗿𝗲𝘀𝘀:\n\n'
      for key, value in data.items():
-         text += f"**{key.capitalize()}**: {value}"
-       
-     return await msg.edit(text)
+         text += f"<b>{key.capitalize()}</b>: <code>{value}</code>\n"
+
+     text += f"\n<b>✨ Made by @{BOT_USERNAME.capitalize()}</b>"
+     return await msg.edit_text(
+          text=text, 
+          parse_mode=enums.ParseMode.HTML,
+          reply_markup=button
+     )
         
          
 
