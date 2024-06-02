@@ -165,7 +165,7 @@ async def fake_adress(app, message):
      if not m.from_user:
          return
      
-     county = m.text.split()[1] if len(m.text.split()) == 2 else False
+     country = m.text.split()[1] if len(m.text.split()) == 2 else False
      uid = m.from_user.id
      button = types.InlineKeyboardMarkup([[types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")]])
 
@@ -174,7 +174,7 @@ async def fake_adress(app, message):
      )
   
      if country:
-         data = Checker.fake(county)
+         data = Checker.fake(country)
      else:
          data = Checker.fake()
        
