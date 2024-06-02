@@ -208,14 +208,15 @@ async def bin_checker(app, message):
          "**Checking please wait....**"
      )
      if not bin_code:
-         return await m.reply_text(usage)
+         return await msg.edit_text(usage)
        
      try:
         bin_code = int(bin_code[:6])
      except ValueError:
-         return await m.reply_text(usage)
+         return await msg.edit_text(usage)
 
      data = Checker.bin_check(bin_code)
+  
      if not data:
            return await msg.edit_text(
              "Uff Something went wrong 🥺"
