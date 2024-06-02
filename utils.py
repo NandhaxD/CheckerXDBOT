@@ -207,7 +207,7 @@ class Checker:
     @staticmethod
     def bin_check(bin_code: int):
         base_url = f"https://bincheck.io/details/{bin_code}"
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=Checker.headers)
         data = {}
         if response.status_code == 200:
             soup = bs4.BeautifulSoup(response.content, 'html.parser')
