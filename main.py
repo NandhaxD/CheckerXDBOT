@@ -55,7 +55,7 @@ async def start(app, message):
      button = types.InlineKeyboardMarkup([[
           types.InlineKeyboardButton(text='Commands 🔐', callback_data=f"help:{uid}"),
           types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}"),],[
-          types.InlineKeyboardButton(text='Channel 📢', url=f"{channel}.t.me")
+          types.InlineKeyboardButton(text='Channel 📢', url=f"{CHANNEL}.t.me")
          ]])
      return await app.send_message(
          chat_id=m.chat.id,
