@@ -14,7 +14,7 @@ class Checker:
     }
   
     @staticmethod
-    def generator(bin_code: int, limit : int = 5):
+    def generator(bin_code: int, limit : int = 10):
        base_url = "https://namsogen.org/ajax.php"
 
        data = []
