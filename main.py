@@ -102,12 +102,12 @@ async def callback_data(app, query):
 
 
 @app.on_message(filters.command('gen', prefixes=PREFIX))
-async def generator(app, message):
+async def cc_generator(app, message):
 
      m = message
      
      usage = (
-       "**❌ wrong formatting, use /gen bin_code**"
+       "**❌ Wrong formatting, use /gen bin_code**"
      )
           
      if not message.from_user:
@@ -117,14 +117,17 @@ async def generator(app, message):
              return await m.reply_text(text=usage)
         try:
           bin_code = int(m.text.split()[1][:6])
-          limit = int(m.text.split()[2]) if len(m.text.split()) > 2 else 10
+          limit = int(m.text.split()[2]) if len(m.text.split()) > 2 else False
         except (ValueError, IndexError):
            return await m.reply_text(text=usage)
 
         uid = m.from_user.id
        
         msg = await m.reply_text(text="**Generating....**", quote=True)
-        data = Checker.generator(bin_code, limit)
+        if limit:
+            data = Checker.generator(bin_code, limit)
+        else:
+            data = Checker.generator(bin_code)
        
         if not data:
            return await msg.edit_text(
@@ -134,9 +137,9 @@ async def generator(app, message):
            f"𝗕𝗜𝗡 ➞  <code>{bin_code}</code>\n"
            f"𝗔𝗺𝗼𝘂𝗻𝘁 ➞ <code>{limit}</code>\n\n"
         )
-        for i, cc in enumerate(data):
+        for cc in data:
             date, year = cc['expiration_date'].split('/')              
-            text += f"<b>{i+1}</b>, <code>{cc['card_number']}|{date}|{year[2:]}|{cc['cvv']}</code>\n"
+            text += f"<code>{cc['card_number']}|{date}|{year[2:]}|{cc['cvv']}</code>\n"
           
         text += f"\n<b>✨ Made by @{BOT_USERNAME.capitalize()}</b>"
         button = types.InlineKeyboardMarkup([[types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")]])
@@ -146,10 +149,47 @@ async def generator(app, message):
           parse_mode=enums.ParseMode.HTML,
           reply_markup=button
         )
-            
-            
-           
 
+######################################################################################################################################################
+
+
+@app.on_message(filters.command('fake'))
+async def fake_adress(app, message):
+      
+     m = message
+     
+     usage = (
+       "**❌ Wrong formatting, use /gen bin_code**"
+     )
+          
+     if not m.from_user:
+         return
+     
+     county = m.text.split()[1] if len(m.text.split()) == 2 else False
+     uid = m.from_user.id
+     button = types.InlineKeyboardMarkup([[types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")]])
+
+     msg = await m.reply_text(
+         "**Generating.....**"
+     )
+  
+     if country:
+         data = Checker.fake(county)
+     else:
+         data = Checker.fake()
+       
+     if not data:
+           return await msg.edit_text(
+             "Uff Something went wrong 🥺"
+           )
+
+     text = ''
+     for key, value in data.items():
+         text += f"**{key.capitalize()}**: {value}"
+       
+     return await msg.edit(text)
+        
+         
 
 
 
