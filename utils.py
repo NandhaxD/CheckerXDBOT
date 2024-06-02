@@ -218,12 +218,12 @@ class Checker:
                 table_data = {}
                 for row in rows:
                     columns = row.find_all('td')
-                if len(columns) == 2:
-                   key = columns[0].text.strip()
-                   value = columns[1].text.strip()
-                   table_data[key] = value
-            bin_data.update(table_data)
-        data['bin_info'] = bin_data
+                    if len(columns) == 2:
+                        key = columns[0].text.strip()
+                        value = columns[1].text.strip()
+                        table_data[key] = value
+                bin_data.update(table_data)
+            data['bin_info'] = bin_data
         if data['bin_info']:
             return data['bin_info']
         else:
