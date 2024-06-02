@@ -39,7 +39,7 @@ class Checker:
     def fake(country: str = 'us'):
 
         base_url = f"https://www.fakenamegenerator.com/advanced.php?t=country&n%5B%5D={country}&c%5B%5D={country}&gen=40&age-min=21&age-max=75"
-        response = requests.get(base_url, headers=headers)
+        response = requests.get(base_url, headers=Checker.headers)
         soup = bs4.BeautifulSoup(response.content, 'html.parser')
         info_element = soup.find(class_='info')
         data = {}
