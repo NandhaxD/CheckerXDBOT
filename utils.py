@@ -224,4 +224,7 @@ class Checker:
                    table_data[key] = value
             bin_data.update(table_data)
         data['bin_info'] = bin_data
-        return data
+        if data['bin_info']:
+            return data['bin_info']
+        else:
+            return
