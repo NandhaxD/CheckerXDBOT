@@ -16,7 +16,8 @@ class Checker:
     @staticmethod
     def generator(bin_code: int, limit : int = 5):
        base_url = "https://namsogen.org/ajax.php"
-              
+
+       data = []
        form_data = {
           "type": "3",
           "bin": bin_code,
@@ -32,8 +33,8 @@ class Checker:
             clean_response_text = re.sub(r',\s*}', '}', clean_response_text)
             clean_response_text = re.sub(r',\s*]', ']', clean_response_text)
             data = json.loads(clean_response_text)
-            return data
-       return []
+       return data
+       
          
     @staticmethod
     def fake(country: str = 'us'):
@@ -201,11 +202,26 @@ class Checker:
                 qr_code_dd = qr_code_dt.find_next('dd').get_text(strip=True)
                 data['QR Code'] = qr_code_dd
 
-        if data:
-           return data
         return data
-        
-
- 
-         
-       
+      
+    @staticmethod
+    def bin_check(bin_code: int):
+        base_url = f"https://bincheck.io/details/{bin_code}"
+        response = requests.get(url, headers=headers)
+        data = {}
+        if response.status_code == 200:
+            soup = bs4.BeautifulSoup(response.content, 'html.parser')
+            tables = soup.find_all('table', class_='w-full table-auto')
+            bin_data = {}
+            for index, table in enumerate(tables, start=1):
+                rows = table.find_all('tr')
+                table_data = {}
+                for row in rows:
+                    columns = row.find_all('td')
+                if len(columns) == 2:
+                   key = columns[0].text.strip()
+                   value = columns[1].text.strip()
+                   table_data[key] = value
+            bin_data.update(table_data)
+        data['bin_info'] = bin_data
+        return data
