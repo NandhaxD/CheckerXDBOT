@@ -123,9 +123,10 @@ async def cc_generator(app, message):
         except (ValueError, IndexError):
            return await m.reply_text(text=usage)
 
+        msg = await m.reply_text(text="**Generating please wait...**", quote=True)
+       
         uid = m.from_user.id
        
-        msg = await m.reply_text(text="**Generating please wait...**", quote=True)
         
         data = Checker.generator(bin_code, limit) if limit else Checker.generator(bin_code)
        
@@ -135,7 +136,7 @@ async def cc_generator(app, message):
            )
         text = (
            f"𝗕𝗜𝗡 ➞  <code>{bin_code}</code>\n"
-           f"𝗔𝗺𝗼𝘂𝗻𝘁 ➞ <code>{limit}</code>\n\n"
+           f"𝗔𝗺𝗼𝘂𝗻𝘁 ➞ <code>{10 if limit == False else limit}</code>\n\n"
         )
         for cc in data:
             date, year = cc['expiration_date'].split('/')              
