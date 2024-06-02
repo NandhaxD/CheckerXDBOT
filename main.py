@@ -183,7 +183,7 @@ async def fake_adress(app, message):
              "Uff Something went wrong 🥺"
            )
 
-     text = '𝗙𝗮𝗸𝗲 𝗔𝗱𝗱𝗿𝗲𝘀𝘀:\n\n'
+     text = '𝗥𝗮𝗻𝗱𝗼𝗺 𝗙𝗮𝗸𝗲 𝗔𝗱𝗱𝗿𝗲𝘀𝘀:\n\n'
      for key, value in data.items():
          text += f"<b>{key.capitalize()}</b>: <code>{value}</code>\n"
 
@@ -193,8 +193,10 @@ async def fake_adress(app, message):
           parse_mode=enums.ParseMode.HTML,
           reply_markup=button
      )
+  
         
-         
+######################################################################################################################################################
+
 
 
 
