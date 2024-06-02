@@ -123,11 +123,9 @@ async def cc_generator(app, message):
 
         uid = m.from_user.id
        
-        msg = await m.reply_text(text="**Generating....**", quote=True)
-        if limit:
-            data = Checker.generator(bin_code, limit)
-        else:
-            data = Checker.generator(bin_code)
+        msg = await m.reply_text(text="**Generating please wait...**", quote=True)
+        
+        data = Checker.generator(bin_code, limit) if limit else Checker.generator(bin_code)
        
         if not data:
            return await msg.edit_text(
@@ -153,15 +151,11 @@ async def cc_generator(app, message):
 ######################################################################################################################################################
 
 
-@app.on_message(filters.command('fake'))
+@app.on_message(filters.command('fake', prefixes=PREFIX))
 async def fake_adress(app, message):
       
      m = message
      
-     usage = (
-       "**❌ Wrong formatting, use /gen bin_code**"
-     )
-          
      if not m.from_user:
          return
      
@@ -170,13 +164,10 @@ async def fake_adress(app, message):
      button = types.InlineKeyboardMarkup([[types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")]])
 
      msg = await m.reply_text(
-         "**Generating.....**"
+         "**Generating please wait.....**"
      )
   
-     if country:
-         data = Checker.fake(country)
-     else:
-         data = Checker.fake()
+     data = Checker.fake(country) if country else Checker.fake()
        
      if not data:
            return await msg.edit_text(
@@ -198,7 +189,50 @@ async def fake_adress(app, message):
 ######################################################################################################################################################
 
 
+@app.on_message(filters.command('bin', prefixes=PREFIX))
+async def bin_checker(app, message):
+     m = message
+     
+     usage = (
+       "**❌ Wrong formatting, use /bin bin_code**"
+     )
+          
+     if not m.from_user:
+         return
+     
+     bin_code = m.text.split()[1] if len(m.text.split()) == 2 else False
+     uid = m.from_user.id
+     button = types.InlineKeyboardMarkup([[types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")]])
 
+     msg = await m.reply_text(
+         "**Checking please wait....**"
+     )
+     if not bin_code:
+         return await m.reply_text(usage)
+       
+     try:
+        bin_code = int(bin_code[:6])
+     except ValueError:
+         return await m.reply_text(usage)
+
+     data = Checker.bin_check(bin_code)
+     if not data:
+           return await msg.edit_text(
+             "Uff Something went wrong 🥺"
+           )
+
+     text = '𝗕𝗜𝗡 𝗔𝗱𝗱𝗿𝗲𝘀𝘀:\n\n'
+     for key, value in data.items():
+          text += f"<b>{key.capitalize()}</b>: <code>{value}</code>\n"
+       
+     text += f"\n<b>✨ Made by @{BOT_USERNAME.capitalize()}</b>"
+     return await msg.edit_text(
+          text=text, 
+          parse_mode=enums.ParseMode.HTML,
+          reply_markup=button
+     )
+     
+  
 
 
 
