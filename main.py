@@ -129,6 +129,7 @@ async def cc_generator(app, message):
        
         
         data = Checker.generator(bin_code, limit) if limit else Checker.generator(bin_code)
+        bin_data = Checker.bin_check(bin_code)
        
         if not data:
            return await msg.edit_text(
@@ -141,8 +142,13 @@ async def cc_generator(app, message):
         for cc in data:
             date, year = cc['expiration_date'].split('/')              
             text += f"<code>{cc['card_number']}|{date}|{year[2:]}|{cc['cvv']}</code>\n"
-          
-        text += f"\n<b>✨ Made by {app.me.mention}</b>"
+
+        if bin_data:
+            text += "𝗕𝗜𝗡 𝗔𝗱𝗱𝗿𝗲𝘀𝘀:\n"
+            for key, value in bin_data.items():
+               text += f"➩ <b>{key.capitalize()}</b>: <code>{value}</code>\n"
+              
+        text += f"\n\n<b>✨ Made by {app.me.mention}</b>"
         button = types.InlineKeyboardMarkup([[types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")]])
        
         return await msg.edit_text(
@@ -237,6 +243,8 @@ async def bin_checker(app, message):
      )
      
   
+######################################################################################################################################################
+
 
 @app.on_message(filters.command(['chk','check'], prefixes=PREFIX))
 async def checker(app, message):
@@ -266,6 +274,8 @@ async def checker(app, message):
 **✨ Made By {app.me.mention}**
 """
      return await msg.edit(text)
+
+######################################################################################################################################################
 
 
 app.run()
