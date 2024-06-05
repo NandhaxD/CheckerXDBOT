@@ -229,7 +229,7 @@ async def bin_checker(app, message):
      for key, value in data.items():
           text += f"<b>{key.capitalize()}</b>: <code>{value}</code>\n"
        
-     text += f"\n<b>✨ Made by @{BOT_USERNAME.capitalize()}</b>"
+     text += f"\n<b>✨ Made by {app.me.mention}</b>"
      return await msg.edit_text(
           text=text, 
           parse_mode=enums.ParseMode.HTML,
@@ -243,7 +243,7 @@ async def checker(app, message):
      m = message
      
      usage = (
-       "**❌ Wrong formatting, use /chk 4569332809704994|08|28|490 like this.**"
+       "**❌ Wrong formatting**,\n```Example:\n/chk 4569332809704994|08|28|490```"
      )
 
      if not m.from_user:
@@ -251,16 +251,17 @@ async def checker(app, message):
      elif not len(m.text.split()) > 1:
           return await m.reply_text(usage)
 
-     msg = await m.reply_text("⏳ Checking....")
+     msg = await m.reply_text("**⏳ Checking....**")
      cc = m.text.split(None, 1)[1]
      data = Checker.checker(cc)
      if not data:
-         return await msg.edit("👀 Something went wrong.....")
+         return await msg.edit("**👀 the credit card type is invalid.**")
      text = f"""
-**BIN**: #{data['cc_number'][:6]}
-**Credit card**: {data['cc_number']}
-**Bank Name**: {data['bank_name']}
-**Status**: {data['status']}
+**𝗕𝗜𝗡**: `{data['cc_number'][:6]}`
+
+**𝗖𝗿𝗲𝗱𝗶𝘁 𝗰𝗮𝗿𝗱**: {data['cc_number']}
+**𝗕𝗮𝗻𝗸 𝗡𝗮𝗺𝗲**: {data['bank_name']}
+**𝗦𝘁𝗮𝘁𝘂𝘀**: {data['status']}
 
 **✨ Made By {app.me.mention}**
 """
