@@ -21,6 +21,8 @@ class Checker:
        response = requests.get(base_url, headers=Checker.headers)
        data = {}
        if response.status_code == 200 and (result:= response.json()):
+            if result.get('error'):
+                return
             results = {
               "cc_number": result['ccNumber'],
               "bank_name": result["bankName"],
