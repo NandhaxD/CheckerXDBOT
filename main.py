@@ -142,7 +142,7 @@ async def cc_generator(app, message):
             date, year = cc['expiration_date'].split('/')              
             text += f"<code>{cc['card_number']}|{date}|{year[2:]}|{cc['cvv']}</code>\n"
           
-        text += f"\n<b>✨ Made by @{BOT_USERNAME.capitalize()}</b>"
+        text += f"\n<b>✨ Made by {app.me.mention}</b>"
         button = types.InlineKeyboardMarkup([[types.InlineKeyboardButton(text='⛔', callback_data=f"close:{uid}")]])
        
         return await msg.edit_text(
@@ -181,7 +181,7 @@ async def fake_adress(app, message):
      for key, value in data.items():
          text += f"<b>{key.capitalize()}</b>: <code>{value}</code>\n"
 
-     text += f"\n<b>✨ Made by @{BOT_USERNAME.capitalize()}</b>"
+     text += f"\n<b>✨ Made by {app.me.mention}</b>"
      return await msg.edit_text(
           text=text, 
           parse_mode=enums.ParseMode.HTML,
@@ -238,7 +238,33 @@ async def bin_checker(app, message):
      
   
 
+@app.on_message(filters.command(['chk','check'], prefixes=PREFIX))
+async def checker(app, message):
+     m = message
+     
+     usage = (
+       "**❌ Wrong formatting, use /chk 4569332809704994|08|28|490 like this.**"
+     )
 
+     if not m.from_user:
+         return
+     elif not len(m.text.split()) > 1:
+          return await m.reply_text(usage)
+
+     msg = await m.reply_text("⏳ Checking....")
+     cc = m.text.split(None, 1)[1]
+     data = Checker.checker(cc)
+     if not data:
+         return await msg.edit("👀 Something went wrong.....")
+     text = f"""
+**BIN**: #{data['cc_number'][:6]}
+**Credit card**: {data['cc_number']}
+**Bank Name**: {data['bank_name']}
+**Status**: {data['satatus']}
+
+**✨ Made By {app.me.mention}**
+"""
+     return await msg.edit(text)
 
 
 app.run()
