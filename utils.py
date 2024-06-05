@@ -6,12 +6,29 @@ import requests
 import re
 import json
 import bs4
+import urllib
 
 class Checker:
 
     headers = {
     'User-Agent': 'Mozilla/5.0 (Linux; Android 11; Infinix X6816C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.98 Mobile Safari/537.36'
     }
+
+
+    @staticmethod
+    def checker(cc: str): #4569332809704994|08|28|490
+       base_url = f"https://www.xchecker.cc/api.php?cc={urllib.parse.quote(cc)}"
+       response = requests.get(base_url, headers=Checker.headers)
+       data = {}
+       if response.status_code == 200 and (result:= response.json()):
+            results = {
+              "cc_number": result['ccNumber'],
+              "bank_name": result["bankName"],
+              "status": result["status"]
+            }
+            data.update(results)
+       return data
+  
   
     @staticmethod
     def generator(bin_code: int, limit : int = 10):
