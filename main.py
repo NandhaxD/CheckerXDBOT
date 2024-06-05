@@ -260,7 +260,7 @@ async def checker(app, message):
 **BIN**: #{data['cc_number'][:6]}
 **Credit card**: {data['cc_number']}
 **Bank Name**: {data['bank_name']}
-**Status**: {data['satatus']}
+**Status**: {data['status']}
 
 **✨ Made By {app.me.mention}**
 """
