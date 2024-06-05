@@ -91,6 +91,9 @@ async def callback_data(app, query):
 ➥ /fake <country code>: for generate random fake address.
 ✪ **Example**: `/fake us`
 
+➥ /chk <credit card>: for check credit card live or dead.
+✪ **Example**: `/chk 4742899000125575|11|2027|603`
+
 ➥ /bin <bin code>: for information about the bin codes.
 ✪ **Example**: `/bin 464988`
 
@@ -144,7 +147,7 @@ async def cc_generator(app, message):
             text += f"<code>{cc['card_number']}|{date}|{year[2:]}|{cc['cvv']}</code>\n"
 
         if bin_data:
-            text += "𝗕𝗜𝗡 𝗔𝗱𝗱𝗿𝗲𝘀𝘀:\n"
+            text += "\n\n𝗕𝗜𝗡 𝗔𝗱𝗱𝗿𝗲𝘀𝘀:\n"
             for key, value in bin_data.items():
                text += f"➩ <b>{key.capitalize()}</b>: <code>{value}</code>\n"
               
